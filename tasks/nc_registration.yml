@@ -1,12 +1,6 @@
 ---
 # NCs Registration
 
-- name: Restart libvirtd
-  service: name=libvirtd state=restarted
-  tags:
-  - nc_cleanup
-  - nc
-
 - name: Start CC service
   service: name=eucalyptus-cc state=started
 
