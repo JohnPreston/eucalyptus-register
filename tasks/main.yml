@@ -1,0 +1,26 @@
+---
+# tasks file for eucalyptus-register
+
+- include: getting_ready.yml
+  when:
+  - inventory_hostname in groups.clc
+
+- include: ufs_registration.yml
+  when:
+  - inventory_hostname in groups.clc
+
+- include: walrus_registration.yml
+  when:
+  - inventory_hostname in groups.clc
+
+- include: cluster_registration.yml
+  when:
+  - inventory_hostname in groups.clc
+
+- include: storage_registration.yml
+  when:
+  - inventory_hostname in groups.clc
+
+- include: nc_registration.yml
+  when:
+  - inventory_hostname in groups.cc

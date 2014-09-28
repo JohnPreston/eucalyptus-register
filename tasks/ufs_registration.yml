@@ -1,0 +1,11 @@
+---
+# Register UFS
+#
+
+- name: Register UFS
+  shell: euca_conf --register-service -T user-api -N "{{ hostvars[item]['ufs_name'] }}" -H "{{ hostvars[item]['ansible_' + java_iface]['ipv4']['address'] }}"
+  with_items: "{{ groups.ufs }}"
+  ignore_errors: true
+  tags:
+  - registration
+  - ufs

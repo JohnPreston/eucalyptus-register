@@ -1,0 +1,5 @@
+---
+# defaults file for eucalyptus-register
+
+networking_mode: EDGE
+use_vlans: true
