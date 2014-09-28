@@ -23,7 +23,6 @@ hosts:
 
 - walrus | S3 builtin-backend
 
-
 Role Variables
 --------------
 
@@ -45,6 +44,18 @@ Dependencies
 
 Example Playbook
 ----------------
+
+```
+
+- hosts:
+  - clc
+  - cc
+  roles:
+  - JohnPreston.eucalytpus-register
+
+```
+
+In a playbook :
 
 ```
 

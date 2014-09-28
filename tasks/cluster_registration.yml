@@ -10,7 +10,6 @@
   - not use_vlans
   - networking_mode == "EDGE"
   tags:
-  - cc
   - regisration
 
 - name: Register CC | EDGE + VLAN-BACKEND
@@ -20,7 +19,6 @@
   - use_vlans
   - networking_mode == "EDGE"
   tags:
-  - cc
   - regisration
 
 - name: Register CC | MANAGED-NOVLAN
@@ -30,7 +28,6 @@
   - not use_vlans
   - networking_mode == "MANAGED-NOVLAN"
   tags:
-  - cc
   - regisration
 
 - name: Register CC | MANAGED-NOVLAN + VLAN-BACKEND
@@ -40,7 +37,6 @@
   - use_vlans
   - networking_mode == "MANAGED-NOVLAN"
   tags:
-  - cc
   - regisration
 
 - name: Register CC | MANAGED
@@ -50,5 +46,4 @@
   - not use_vlans
   - not networking_mode == "EDGE"
   tags:
-  - cc
   - regisration

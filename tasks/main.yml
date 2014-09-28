@@ -4,23 +4,35 @@
 - include: getting_ready.yml
   when:
   - inventory_hostname in groups.clc
+  tags:
+  - registration
 
 - include: ufs_registration.yml
   when:
   - inventory_hostname in groups.clc
+  tags:
+  - registration
 
 - include: walrus_registration.yml
   when:
   - inventory_hostname in groups.clc
+  tags:
+  - registration
 
 - include: cluster_registration.yml
   when:
   - inventory_hostname in groups.clc
+  tags:
+  - registration
 
 - include: storage_registration.yml
   when:
   - inventory_hostname in groups.clc
+  tags:
+  - registration
 
 - include: nc_registration.yml
   when:
   - inventory_hostname in groups.cc
+  tags:
+  - registration

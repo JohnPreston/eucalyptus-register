@@ -9,5 +9,3 @@
   ignore_errors: true
   tags:
   - registration
-  when:
-  - not use_vlans

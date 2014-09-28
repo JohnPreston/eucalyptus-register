@@ -20,7 +20,7 @@
   - partition == "{{ hostvars[item]['partition'] }}"
   - not use_vlans
   tags:
-  - nc_registration
+  - registration
 
 - name: Register all NCs | MANAGED mode
   shell: euca_conf --register-nodes "{{ hostvars[item]['ansible_' + "%s"|format(hostvars[item]['vnet_private'])]['ipv4']['address'] }}"
@@ -29,4 +29,4 @@
   - partition == "{{ hostvars[item]['partition'] }}"
   - networking_mode == "MANAGED"
   tags:
-  - nc_registration
+  - registration

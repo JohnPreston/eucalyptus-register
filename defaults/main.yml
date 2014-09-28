@@ -1,5 +1,9 @@
 ---
 # defaults file for eucalyptus-register
 
-networking_mode: EDGE
-use_vlans: true
+networking_mode: MANAGED-NOVLAN
+use_vlans: false
+edge_using_private: true
+
+
+
