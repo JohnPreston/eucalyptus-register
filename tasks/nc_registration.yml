@@ -4,29 +4,19 @@
 - name: Start CC service
   service: name=eucalyptus-cc state=started
 
-- name: Register all NCs | bridge VLAN
-  shell: euca_conf --register-nodes "{{ hostvars[item]['ansible_' + "%s%d"|format(hostvars[item]['bridge_prefix'], hostvars[item]['vlan_tag'])]['ipv4']['address'] }}"
+- name: Debug items
+  debug: msg="{{ item  }}"
+  with_items:
+  - "{{ groups.nc }}"
+  tags:
+  - debug
+  - nc_registration
+
+- name: Register all NCs
+  shell: euca_conf --register-nodes "{{ hostvars[item][hostvars[item]['nc_iface']]['ipv4']['address'] }}"
   with_items: "{{ groups.nc }}"
   when:
   - partition == "{{ hostvars[item]['partition'] }}"
-  - use_vlans
   tags:
   - nc_registration
 
-- name: Register all NCs | bridge NOVLAN
-  shell: euca_conf --register-nodes "{{ hostvars[item]['ansible_' + "%s%d"|format(hostvars[item]['bridge_prefix'], hostvars[item]['bridge_id'])]['ipv4']['address'] }}"
-  with_items: "{{ groups.nc }}"
-  when:
-  - partition == "{{ hostvars[item]['partition'] }}"
-  - not use_vlans
-  tags:
-  - nc_registration
-
-- name: Register all NCs | MANAGED mode
-  shell: euca_conf --register-nodes "{{ hostvars[item]['ansible_' + "%s"|format(hostvars[item]['vnet_private'])]['ipv4']['address'] }}"
-  with_items: "{{ groups.nc }}"
-  when:
-  - partition == "{{ hostvars[item]['partition'] }}"
-  - networking_mode == "MANAGED"
-  tags:
-  - nc_registration

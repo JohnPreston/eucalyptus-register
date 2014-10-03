@@ -1,0 +1,60 @@
+################################################################################
+#
+# Register Walrus
+#
+
+- name: Register Walrus
+  shell: euca_conf --register-walrus --partition walrus
+         --component "{{ hostvars[item]['walrus_name'] }}"
+         --host "{{  hostvars[item][hostvars[item]['java_iface']]['ipv4']['address'] }}"
+  with_items:
+  - "{{ groups.walrus }}"
+  ignore_errors: true
+  tags:
+  - registration
+
+################################################################################
+#
+# Register UFS
+#
+
+- name: Register UFS
+  shell: euca_conf --register-service -T user-api
+         -N "{{ hostvars[item]['ufs_name'] }}"
+         -H "{{ hostvars[item][hostvars[item]['java_iface']]['ipv4']['address'] }}"
+  with_items:
+  - "{{ groups.ufs }}"
+  ignore_errors: true
+  tags:
+  - registration
+
+################################################################################
+#
+# SC registration
+#
+
+- name: Register SC
+  shell: euca_conf --register-sc
+         --partition "{{ hostvars[item]['partition'] }}"
+         --component "{{ hostvars[item]['sc_name'] }}"
+         --host "{{ hostvars[item][hostvars[item]['java_iface']]['ipv4']['address'] }}"
+  with_items:
+  - "{{ groups.sc }}"
+  ignore_errors: true
+  tags:
+  - registration
+
+################################################################################
+#
+# CC registration
+#
+
+- name: Register CCs
+  shell: euca_conf --register-cluster
+         --partition "{{ hostvars[item]['partition'] }}"
+         --component "{{ hostvars[item]['cc_name'] }}"
+         --host "{{ hostvars[item][hostvars[item]['cc_iface']]['ipv4']['address'] }}"
+  with_items: "{{ groups.cc }}"
+  ignore_errors: true
+  tags:
+  - regisration

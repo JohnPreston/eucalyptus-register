@@ -7,25 +7,37 @@
   tags:
   - registration
 
-- include: ufs_registration.yml
-  when:
-  - inventory_hostname in groups.clc
+- name: Start the CLC service
+  service: name=eucalyptus-cloud state=started
   tags:
   - registration
-
-- include: walrus_registration.yml
+  - init_clc
   when:
   - inventory_hostname in groups.clc
+
+- name: Compiling UFS JAVA bindings
+  service: name=eucalyptus-cloud state=started
+  when:
+  - inventory_hostname in groups.ufs
+
+- name: Compiling Walrus JAVA bindings
+  service: name=eucalyptus-cloud state=started
+  when:
+  - inventory_hostname in groups.walrus
+
+- name: Compiling SC JAVA bindings
+  service: name=eucalyptus-cloud state=started
+  when:
+  - inventory_hostname in groups.sc
+
+- name: Waiting for CLC to be listening
+  wait_for: path=/var/log/eucalyptus/cloud-output.log search_regex="Detected Interfaces"
   tags:
   - registration
-
-- include: cluster_registration.yml
   when:
   - inventory_hostname in groups.clc
-  tags:
-  - registration
 
-- include: storage_registration.yml
+- include: frontends_registration.yml
   when:
   - inventory_hostname in groups.clc
   tags:
@@ -36,3 +48,18 @@
   - inventory_hostname in groups.cc
   tags:
   - registration
+
+- name: Start NC
+  service: name=eucalyptus-nc state=started
+  when:
+  - inventory_hostname in groups.nc
+  tags:
+  - services_start
+
+- name: Start eucanetd
+  service: name=eucanetd state=started
+  when:
+  - inventory_hostname in groups.nc
+  - networking_mode == "EDGE"
+  tags:
+  - services_start
