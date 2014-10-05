@@ -1,7 +1,8 @@
 ---
 # tasks file for eucalyptus-register
 
-- include: getting_ready.yml
+- name: Initialize Cloud
+  include: getting_ready.yml
   when:
   - inventory_hostname in groups.clc
   tags:
