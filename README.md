@@ -32,7 +32,9 @@ This variable MUST NOT BE CHANGED if you are not an Eucalyptus engineer
 |--- |--- |--- |---
 | networking_mode | None | Eucalyptus networking mode | Must be the same for all roles
 | use_vlans| true | Eucalyptus using VLANs for instances traffic | None
-
+| java_iface | none | java interface used for registration | must be all the same subnet
+| cc_iface | none | CC interface for registration | None
+| nc_iface | none | NC iterface for registation | Avoid the bridge
 
 Dependencies
 ------------
