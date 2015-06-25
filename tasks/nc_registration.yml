@@ -3,6 +3,8 @@
 
 - name: Start CC service
   service: name=eucalyptus-cc state=started
+  tags:
+  - registration
 
 - name: Debug items
   debug: msg="{{ item  }}"
@@ -13,10 +15,7 @@
   - nc_registration
 
 - name: Register all NCs
-  shell: euca_conf --register-nodes "{{ hostvars[item][hostvars[item]['nc_iface']]['ipv4']['address'] }}"
+  shell: euca_conf --register-nodes "{{ hostvars[item]['ansible_' + nc_iface]['ipv4']['address'] }}"
   with_items: "{{ groups.nc }}"
-  when:
-  - partition == "{{ hostvars[item]['partition'] }}"
   tags:
   - nc_registration
-

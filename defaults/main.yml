@@ -4,6 +4,4 @@
 networking_mode: MANAGED-NOVLAN
 use_vlans: false
 edge_using_private: true
-
-
-
+euca_db_path: /var/lib/eucalyptus/db/data

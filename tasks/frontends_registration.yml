@@ -3,10 +3,18 @@
 # Register Walrus
 #
 
+- name: Debug walrus IP
+  debug: msg="{{  hostvars[item]['ansible_' + java_iface]['ipv4']['address'] }}"
+  with_items:
+  - "{{ groups.walrus }}"
+  tags:
+  - registration
+  - debug
+
 - name: Register Walrus
   shell: euca_conf --register-walrus --partition walrus
-         --component "{{ hostvars[item]['walrus_name'] }}"
-         --host "{{  hostvars[item][hostvars[item]['java_iface']]['ipv4']['address'] }}"
+         --component "walrus-0001"
+         --host "{{ hostvars[item]['ansible_' + java_iface]['ipv4']['address'] }}"
   with_items:
   - "{{ groups.walrus }}"
   ignore_errors: true
@@ -20,8 +28,8 @@
 
 - name: Register UFS
   shell: euca_conf --register-service -T user-api
-         -N "{{ hostvars[item]['ufs_name'] }}"
-         -H "{{ hostvars[item][hostvars[item]['java_iface']]['ipv4']['address'] }}"
+         -N "ufs-0001"
+         -H "{{ hostvars[item]['ansible_' + java_iface]['ipv4']['address'] }}"
   with_items:
   - "{{ groups.ufs }}"
   ignore_errors: true
@@ -35,9 +43,9 @@
 
 - name: Register SC
   shell: euca_conf --register-sc
-         --partition "{{ hostvars[item]['partition'] }}"
-         --component "{{ hostvars[item]['sc_name'] }}"
-         --host "{{ hostvars[item][hostvars[item]['java_iface']]['ipv4']['address'] }}"
+         --partition "{{ partition }}"
+         --component "sc-0001"
+         --host "{{ hostvars[item]['ansible_' + java_iface]['ipv4']['address'] }}"
   with_items:
   - "{{ groups.sc }}"
   ignore_errors: true
@@ -51,10 +59,10 @@
 
 - name: Register CCs
   shell: euca_conf --register-cluster
-         --partition "{{ hostvars[item]['partition'] }}"
-         --component "{{ hostvars[item]['cc_name'] }}"
-         --host "{{ hostvars[item][hostvars[item]['cc_iface']]['ipv4']['address'] }}"
+         --partition "{{ partition }}"
+         --component "cc-0001"
+         --host "{{ hostvars[item]['ansible_' + cc_iface]['ipv4']['address'] }}"
   with_items: "{{ groups.cc }}"
   ignore_errors: true
   tags:
-  - regisration
+  - registration
